@@ -1,11 +1,9 @@
 package com.apex.eqp.inventory.helpers;
 
 import com.apex.eqp.inventory.entities.Product;
+import com.apex.eqp.inventory.entities.RecalledProduct;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductFilter {
@@ -17,10 +15,30 @@ public class ProductFilter {
     }
 
     public List<Product> removeRecalledFrom(Collection<Product> allProduct) {
-        return allProduct.stream().filter(ProductFilter::filterByName).collect(Collectors.toList());
+        return allProduct.stream().filter(a->filterByName(a)).collect(Collectors.toList());
     }
 
-    private static boolean filterByName(Product product) {
+//    public List<Product> removeUnexpiredRecalledFrom(Collection<Product> allProduct) {
+//
+//    }
+
+    //this filter will select ALL recalledProduct
+    //another filter will be needed to collect non expired recall product
+    private boolean filterByName(Product product) {
+        if (recalledProducts.contains(product.getName())) {
+            return false;
+        }
         return true;
     }
+
+//    private boolean filterExpiredProducts(Product product) {
+//        if (recalledProducts.contains(product.getName())) {
+//            for (String rp: recalledProducts) {
+//                if ()
+//            }
+//        }
+//
+//        return true;
+//    }
+
 }

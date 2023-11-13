@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
@@ -30,7 +27,14 @@ public class ProductService {
     }
 
     public Collection<Product> getAllProduct() {
-        ProductFilter filter = new ProductFilter(null);
+        Set<RecalledProduct> list = recalledProductRepository.findAll().stream().collect(Collectors.toSet());
+        Set<String> prodNames = new HashSet<>();
+
+        for (RecalledProduct rp: list) {
+            prodNames.add(rp.getName());
+        }
+
+        ProductFilter filter = new ProductFilter(prodNames);
 
         return filter.removeRecalledFrom(inventoryRepository.findAll());
     }

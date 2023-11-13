@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,10 @@ public class RecalledProductService {
 
     public Collection<RecalledProduct> getAllRecalledProducts() {
         return recalledProductRepository.findAll();
+    }
+
+    public Collection<RecalledProduct> getUnexpiredRecallProducts() {
+        return recalledProductRepository.findAll().stream().filter(a->!a.isExpired()).collect(Collectors.toList());
     }
 
     public Optional<RecalledProduct> findById(Integer id) {

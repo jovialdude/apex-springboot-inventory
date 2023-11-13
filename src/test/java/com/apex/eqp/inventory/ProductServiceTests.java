@@ -8,12 +8,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.TestPropertySources;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
+//@TestPropertySource(locations = "classpath:test.properties")
 class ProductServiceTests {
 
     @Autowired
@@ -36,7 +37,7 @@ class ProductServiceTests {
     /**
      * Helper method to create test recalled products
      */
-    private RecalledProduct createTestRecalledProduct(String recalledProductName, Boolean expired) {
+    private RecalledProduct createTestRecalledProduct(String recalledProductName, boolean expired) {
         return RecalledProduct.builder()
                 .name(recalledProductName)
                 .expired(expired)
@@ -73,5 +74,18 @@ class ProductServiceTests {
     }
 
     // Write your tests below
+    @Test
+    void getAllProductSuccessWithRecalledProduct() {
+        Product product1 = createTestProduct("apple", 1.50, 10);
+        product1.setId(1);
+        Product product2 = createTestProduct("cookies", 2.50, 10);
+        product2.setId(2);
+
+        List<Product> expected = new ArrayList<>();
+        expected.add(product1);
+        expected.add(product2);
+
+        Assertions.assertEquals(expected, productService.getAllProduct());
+    }
 
 }

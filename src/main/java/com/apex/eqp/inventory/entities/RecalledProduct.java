@@ -21,7 +21,7 @@ public class RecalledProduct {
     @Column(unique = true)
     String name;
 
-    Boolean expired;
+    boolean expired;
 
     @Override
     public boolean equals(Object o) {
